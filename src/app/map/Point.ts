@@ -1,5 +1,4 @@
-export interface Point {
+export class Point {
   lat: number;
   lng: number;
-  uid: any;
 }

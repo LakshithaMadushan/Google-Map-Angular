@@ -1,5 +1,8 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {Point} from './Point';
+import {Marker} from './Marker';
+import {MapTypeId} from './MapTypeId.enum';
+import {Animation} from './Animation.enum';
 
 declare var google;
 
@@ -10,16 +13,18 @@ declare var google;
 })
 export class MapComponent implements OnInit {
 
-  @Input('MarkersList') markersList: Array<Point>;
+  @Input('MarkersList') markersList: Array<Marker>;
+  @Input('ZoomLevel') mapZoomLevel = 5;
 
   map: any;
   scriptLoadingPromise: Promise<void>;
+  selectedMarker: any;
 
   constructor(private _elem: ElementRef) {
     this.markersList = [
-      {lat: 25.774252, lng: -80.190262, uid: 1},
-      {lat: 18.466465, lng: -66.118292, uid: 2},
-      {lat: 32.321384, lng: -64.757370, uid: 3}
+      {point: {lat: 25.774252, lng: -80.190262}, uid: 1, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP},
+      {point: {lat: 18.466465, lng: -66.118292}, uid: 2, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP},
+      {point: {lat: 32.321384, lng: -64.757370}, uid: 3, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP}
     ];
   }
 
@@ -49,15 +54,14 @@ export class MapComponent implements OnInit {
     document.body.appendChild(script);
 
     return this.scriptLoadingPromise;
-
   }
 
   public createMap(el: HTMLElement): Promise<void> {
     return this.load().then(() => {
       this.map = new google.maps.Map(el, {
-        zoom: 2,
-        center: new google.maps.LatLng(2.8, -187.3),
-        mapTypeId: 'terrain'
+        zoom: this.mapZoomLevel,
+        center: new google.maps.LatLng(25.774252, -80.190262),
+        mapTypeId: MapTypeId.roadmap
       });
 
       this.mapMarkers();
@@ -66,22 +70,42 @@ export class MapComponent implements OnInit {
     });
   }
 
-  public marker(lat, lng, uid): void {
+  public marker(lat, lng, uid, icon, animation): any {
     const marker = new google.maps.Marker({
       position: new google.maps.LatLng(lat, lng),
-      icon: 'assets/icons/marker-hotel.png',
+      icon: icon,
       map: this.map,
-      animation: google.maps.Animation.BOUNCE,
+      animation: animation,
       unique_id: uid
     });
 
-    google.maps.event.addListener(marker, 'click', (() => console.log(marker.get('unique_id'))));
+    google.maps.event.addListener(marker, 'click', (() => {
+      if (this.selectedMarker) {
+        console.log(this.selectedMarker);
+        this.selectedMarker.setMap(null);
+        this.marker(this.selectedMarker.internalPosition.lat(), this.selectedMarker.internalPosition.lng(), this.selectedMarker.unique_id, this.selectedMarker.icon, Animation.NONE);
+      }
+      this.clickOnMarker(marker);
+    }));
+
+    return marker;
   }
 
   public mapMarkers() {
     if (this.markersList.length > 0) {
-      this.markersList.forEach((point) => {
-        this.marker(point.lat, point.lng, point.uid);
+      this.markersList.forEach((marker) => {
+        this.marker(marker.point.lat, marker.point.lng, marker.uid, marker.icon, marker.animation);
+      });
+    }
+  }
+
+  public clickOnMarker(clickedMarker) {
+    clickedMarker.setMap(null);
+    if (this.markersList.length > 0) {
+      this.markersList.forEach((marker) => {
+        if (marker.uid === clickedMarker.get('unique_id')) {
+          this.selectedMarker = this.marker(marker.point.lat, marker.point.lng, marker.uid, marker.icon, Animation.BOUNCE);
+        }
       });
     }
   }
