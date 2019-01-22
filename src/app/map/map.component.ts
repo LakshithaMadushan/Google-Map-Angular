@@ -65,6 +65,9 @@ export class MapComponent implements OnInit {
       });
 
       this.mapMarkers();
+      google.maps.event.addListener(this.map, 'click', (() => {
+        this.resetBouncingMarker(this.selectedMarker);
+      }));
 
       return;
     });
@@ -81,14 +84,17 @@ export class MapComponent implements OnInit {
 
     google.maps.event.addListener(marker, 'click', (() => {
       if (this.selectedMarker) {
-        console.log(this.selectedMarker);
-        this.selectedMarker.setMap(null);
-        this.marker(this.selectedMarker.internalPosition.lat(), this.selectedMarker.internalPosition.lng(), this.selectedMarker.unique_id, this.selectedMarker.icon, Animation.NONE);
+        this.resetBouncingMarker(this.selectedMarker);
       }
       this.clickOnMarker(marker);
     }));
 
     return marker;
+  }
+
+  resetBouncingMarker(selectedMarker) {
+    selectedMarker.setMap(null);
+    this.marker(selectedMarker.internalPosition.lat(), selectedMarker.internalPosition.lng(), selectedMarker.unique_id, selectedMarker.icon, Animation.NONE);
   }
 
   public mapMarkers() {
