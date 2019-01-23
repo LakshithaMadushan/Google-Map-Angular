@@ -1,12 +1,14 @@
 <div class="map-view-container">
   <div class="map-view">
+    <input class="map-view__toggle-check" id="map-view__toggle-check" type="checkbox" role="button"/>
+    <label class="map-view__toggle-label" for="map-view__toggle-check"><span>▶</span></label>
     <section class="map-view__map">
-      <app-map [ZoomLevel]="5" [MapStyle]="2"></app-map>
+      <app-map *ngIf="loadMap" [HotelMarkerDataList]="hotelMarkerDataList" [ZoomLevel]="12" [MapStyle]="2"></app-map>
     </section>
     <section class="map-view__results">
-      <app-map-card class="map-card"></app-map-card>
-      <app-map-card class="map-card"></app-map-card>
-      <app-map-card class="map-card"></app-map-card>
+      <ng-container *ngFor="let hotelMarkerData of hotelMarkerDataList">
+        <app-map-card class="map-card"></app-map-card>
+      </ng-container>
     </section>
   </div>
 </div>

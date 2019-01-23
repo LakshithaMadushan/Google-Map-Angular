@@ -1,8 +1,8 @@
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {Marker} from './Marker';
+import {Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {MapTypeId} from './MapTypeId.enum';
 import {Animation} from './Animation.enum';
 import {GetMapStylesService} from './get-map-styles.service';
+import {HotelMarkerData} from '../map-widget/HotelMarkerData';
 
 declare var google;
 
@@ -11,14 +11,15 @@ declare var google;
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges {
 
-  @Input('MarkersList') markersList: Array<Marker>;
+  @Input('HotelMarkerDataList') hotelMarkerDataList: Array<HotelMarkerData>;
   @Input('ZoomLevel') mapZoomLevel;
   @Input('ClickEnable') clickEnable = true;
   @Input('EnablePlaceSearch') placeSearch = false;
   @Input('MapStyle') setMapStyle;
 
+  markersList: any = [];
   map: any;
   infoWindow: any;
   searchBox: any;
@@ -29,11 +30,11 @@ export class MapComponent implements OnInit {
   mapStyles: any;
 
   constructor(private _elem: ElementRef, private getMapStylesService: GetMapStylesService) {
-    this.markersList = [
-      {point: {lat: 25.774252, lng: -80.190262}, uid: 1, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP},
-      {point: {lat: 18.466465, lng: -66.118292}, uid: 2, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP},
-      {point: {lat: 32.321384, lng: -64.757370}, uid: 3, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP}
-    ];
+    // this.markersList = [
+    //   {point: {lat: 25.774252, lng: -80.190262}, uid: 1, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP},
+    //   {point: {lat: 18.466465, lng: -66.118292}, uid: 2, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP},
+    //   {point: {lat: 32.321384, lng: -64.757370}, uid: 3, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP}
+    // ];
   }
 
   ngOnInit() {
@@ -52,6 +53,21 @@ export class MapComponent implements OnInit {
     } else {
       this.createMap(container);
     }
+
+    this.hotelMarkerDataList.forEach((data) => {
+      this.markersList.push(
+        {
+          point: {lat: data.marker.point.lat, lng: data.marker.point.lng},
+          uid: data.marker.uid,
+          icon: 'assets/icons/marker-hotel.png',
+          animation: Animation.DROP
+        });
+    });
+
+    console.log(this.markersList);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
   }
 
   load(): Promise<void> {
@@ -81,11 +97,16 @@ export class MapComponent implements OnInit {
     return this.load().then(() => {
       this.map = new google.maps.Map(el, {
         zoom: (this.mapZoomLevel) ? (this.mapZoomLevel) : 5,
-        center: new google.maps.LatLng(25.774252, -80.190262),
+        center: new google.maps.LatLng(24.466667, 54.366669),
         mapTypeId: MapTypeId.roadmap,
         gestureHandling: 'cooperative',
         mapTypeControl: false,
-        styles: this.mapStyles
+        styles: this.mapStyles,
+        streetViewControl: true,
+        fullscreenControl: true,
+        fullscreenControlOptions: {
+          position: google.maps.ControlPosition.BOTTOM_RIGHT
+        }
       });
 
       this.mapMarkers();

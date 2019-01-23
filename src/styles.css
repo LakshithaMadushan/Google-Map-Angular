@@ -61,6 +61,11 @@
  */
 /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
+
+* {
+  box-sizing: border-box;
+}
+
 #map {
   height: 100%;
 }
@@ -116,16 +121,54 @@
 }
 
 .map-view__map {
-  -ms-flex-preferred-size: 67%;
-  flex-basis: 67%;
-  background-color: #ebebeb;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  position: absolute;
+  top: 0;
+  right: 400px;
+  bottom: 0;
+  left: 0;
+  -webkit-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+  z-index: 11;
 }
 
 .map-view__results {
-  -ms-flex-preferred-size: 33%;
-  flex-basis: 33%;
   padding: 15px;
   overflow: auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #fff;
+  bottom: 0;
+  width: 400px;
+  -webkit-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+
+.map-view__toggle-check {
+  display: none;
+}
+
+.map-view__toggle-check:checked ~ .map-view__map {
+  right: 0;
+}
+
+.map-view__toggle-check:checked ~ .map-view__toggle-label {
+  right: 0;
+}
+
+.map-view__toggle-label {
+  position: absolute;
+  top: 80px;
+  right: 400px;
+  padding: 25px 15px;
+  background-color: blue;
+  cursor: pointer;
+  z-index: 20;
+  -webkit-transition: right 0.3s ease;
+  transition: right 0.3s ease;
 }
 
 .map-card {
