@@ -1,12 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MapComponent } from './map/map.component';
-import { FormsModule } from '@angular/forms';
-import { MapWidgetComponent } from './map-widget/map-widget.component';
-import { MapCardComponent } from './map-card/map-card.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {MapComponent} from './map/map.component';
+import {FormsModule} from '@angular/forms';
+import {MapWidgetComponent} from './map-widget/map-widget.component';
+import {MapCardComponent} from './map-card/map-card.component';
+import {HttpModule} from '@angular/http';
+import {GetMapStylesService} from './map/get-map-styles.service';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,11 @@ import { MapCardComponent } from './map-card/map-card.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpModule
   ],
-  providers: [],
+  providers: [GetMapStylesService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

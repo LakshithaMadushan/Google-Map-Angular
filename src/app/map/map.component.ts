@@ -2,6 +2,7 @@ import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {Marker} from './Marker';
 import {MapTypeId} from './MapTypeId.enum';
 import {Animation} from './Animation.enum';
+import {GetMapStylesService} from './get-map-styles.service';
 
 declare var google;
 
@@ -13,9 +14,10 @@ declare var google;
 export class MapComponent implements OnInit {
 
   @Input('MarkersList') markersList: Array<Marker>;
-  @Input('ZoomLevel') mapZoomLevel = 5;
+  @Input('ZoomLevel') mapZoomLevel;
   @Input('ClickEnable') clickEnable = true;
   @Input('EnablePlaceSearch') placeSearch = false;
+  @Input('MapStyle') setMapStyle;
 
   map: any;
   infoWindow: any;
@@ -24,8 +26,9 @@ export class MapComponent implements OnInit {
   selectedMarker: any;
   searchPlaces: any;
   searchPlaceMarkers: any = [];
+  mapStyles: any;
 
-  constructor(private _elem: ElementRef) {
+  constructor(private _elem: ElementRef, private getMapStylesService: GetMapStylesService) {
     this.markersList = [
       {point: {lat: 25.774252, lng: -80.190262}, uid: 1, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP},
       {point: {lat: 18.466465, lng: -66.118292}, uid: 2, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP},
@@ -35,7 +38,20 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     const container = this._elem.nativeElement.querySelector('#map');
-    this.createMap(container);
+
+    if (this.setMapStyle) {
+      this.getMapStylesService.getStyle.subscribe(data => {
+          this.mapStyles = (JSON.parse(data['_body'])[this.setMapStyle.toString()]);
+          this.createMap(container);
+        }, (error) => {
+          this.mapStyles = undefined;
+          this.createMap(container);
+          console.log(error);
+        }
+      );
+    } else {
+      this.createMap(container);
+    }
   }
 
   load(): Promise<void> {
@@ -64,171 +80,12 @@ export class MapComponent implements OnInit {
   public createMap(el: HTMLElement): Promise<void> {
     return this.load().then(() => {
       this.map = new google.maps.Map(el, {
-        zoom: this.mapZoomLevel,
+        zoom: (this.mapZoomLevel) ? (this.mapZoomLevel) : 5,
         center: new google.maps.LatLng(25.774252, -80.190262),
         mapTypeId: MapTypeId.roadmap,
         gestureHandling: 'cooperative',
         mapTypeControl: false,
-        styles: [
-          {
-            elementType: 'geometry',
-            stylers: [
-              {
-                color: '#f5f5f5'
-              }
-            ]
-          },
-          {
-            elementType: 'labels.icon',
-            stylers: [
-              {
-                visibility: 'off'
-              }
-            ]
-          },
-          {
-            elementType: 'labels.text.fill',
-            stylers: [
-              {
-                color: '#616161'
-              }
-            ]
-          },
-          {
-            elementType: 'labels.text.stroke',
-            stylers: [
-              {
-                color: '#f5f5f5'
-              }
-            ]
-          },
-          {
-            featureType: 'administrative.land_parcel',
-            elementType: 'labels.text.fill',
-            stylers: [
-              {
-                color: '#858ea1'
-              }
-            ]
-          },
-          {
-            featureType: 'poi',
-            elementType: 'geometry',
-            stylers: [
-              {
-                color: '#eff0f2'
-              }
-            ]
-          },
-          {
-            featureType: 'poi',
-            elementType: 'labels.text.fill',
-            stylers: [
-              {
-                color: '#757575'
-              }
-            ]
-          },
-          {
-            featureType: 'poi.park',
-            elementType: 'geometry',
-            stylers: [
-              {
-                color: '#e1f4c1'
-              }
-            ]
-          },
-          {
-            featureType: 'poi.park',
-            elementType: 'labels.text.fill',
-            stylers: [
-              {
-                color: '#858ea1'
-              }
-            ]
-          },
-          {
-            featureType: 'road',
-            elementType: 'geometry',
-            stylers: [
-              {
-                color: '#f8f9fa'
-              }
-            ]
-          },
-          {
-            featureType: 'road.arterial',
-            elementType: 'labels.text.fill',
-            stylers: [
-              {
-                color: '#858ea1'
-              }
-            ]
-          },
-          {
-            featureType: 'road.highway',
-            elementType: 'geometry',
-            stylers: [
-              {
-                color: '#dbdee4'
-              }
-            ]
-          },
-          {
-            featureType: 'road.highway',
-            elementType: 'labels.text.fill',
-            stylers: [
-              {
-                color: '#858ea1'
-              }
-            ]
-          },
-          {
-            featureType: 'road.local',
-            elementType: 'labels.text.fill',
-            stylers: [
-              {
-                color: '#858ea1'
-              }
-            ]
-          },
-          {
-            featureType: 'transit.line',
-            elementType: 'geometry',
-            stylers: [
-              {
-                color: '#eff0f2'
-              }
-            ]
-          },
-          {
-            featureType: 'transit.station',
-            elementType: 'geometry',
-            stylers: [
-              {
-                color: '#eff0f2'
-              }
-            ]
-          },
-          {
-            featureType: 'water',
-            elementType: 'geometry',
-            stylers: [
-              {
-                color: '#dbdee4'
-              }
-            ]
-          },
-          {
-            featureType: 'water',
-            elementType: 'labels.text.fill',
-            stylers: [
-              {
-                color: '#9e9e9e'
-              }
-            ]
-          }
-        ]
+        styles: this.mapStyles
       });
 
       this.mapMarkers();
