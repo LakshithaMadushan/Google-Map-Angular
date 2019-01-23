@@ -18,6 +18,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Input('ClickEnable') clickEnable = true;
   @Input('EnablePlaceSearch') placeSearch = false;
   @Input('MapStyle') setMapStyle;
+  @Input('EnteredMapCardID') enteredMapCardID: number;
 
   markersList: any = [];
   map: any;
@@ -60,7 +61,7 @@ export class MapComponent implements OnInit, OnChanges {
           point: {lat: data.marker.point.lat, lng: data.marker.point.lng},
           uid: data.marker.uid,
           icon: 'assets/icons/marker-hotel.png',
-          animation: Animation.DROP
+          animation: (data.marker.animation) ? Animation.BOUNCE : Animation.DROP
         });
     });
 
@@ -68,6 +69,12 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['enteredMapCardID'] && !changes['enteredMapCardID'].firstChange) {
+      if (this.enteredMapCardID !== undefined) {
+        this.resetBouncingMarker(this.selectedMarker);
+        this.selectedMarker = undefined;
+      }
+    }
   }
 
   load(): Promise<void> {

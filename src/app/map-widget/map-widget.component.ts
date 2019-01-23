@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Http} from '@angular/http';
 import {HotelMarkerData} from './HotelMarkerData';
 import {Point} from '../map/Point';
@@ -11,8 +11,12 @@ import {Marker} from '../map/Marker';
 })
 export class MapWidgetComponent implements OnInit {
 
+  @Output() enterMapCard: EventEmitter<any> = new EventEmitter();
+  @Output() leaveMapCard: EventEmitter<any> = new EventEmitter();
+
   loadMap = false;
   hotelMarkerDataList: any = [];
+  enteredMapCardID: number;
 
   constructor(private http: Http) {
     this.getHotelData();
@@ -49,5 +53,13 @@ export class MapWidgetComponent implements OnInit {
       this.loadMap = true;
       console.log(error);
     });
+  }
+
+  mouseEnterMapCard(data, i) {
+    this.enteredMapCardID = ((data['marker'])['uid']);
+  }
+
+  mouseLeaveMapCard(data, i) {
+    this.enteredMapCardID = undefined;
   }
 }
