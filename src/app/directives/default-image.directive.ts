@@ -32,11 +32,8 @@ export class DefaultImage implements AfterViewInit, OnChanges {
 
   public setImage(): void {
     if (this.onParent) {
-      let tempSrc = this.src;
-      if (tempSrc !== undefined) {
-        tempSrc = tempSrc.replace(')', '\\)');
-        tempSrc = tempSrc.replace('(', '\\(');
-        this.renderer.setElementStyle(this.elemRef.nativeElement.parentElement, 'backgroundImage', 'url(' + tempSrc + ')');
+      if (this.src !== undefined) {
+        this.renderer.setElementStyle(this.elemRef.nativeElement.parentElement, 'backgroundImage', 'url(' + this.src + ')');
       }
       this.renderer.setElementStyle(this.elemRef.nativeElement, 'display', 'none');
     }

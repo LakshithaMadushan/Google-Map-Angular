@@ -1,8 +1,9 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Http} from '@angular/http';
 import {HotelMarkerData} from './HotelMarkerData';
 import {Point} from '../map/Point';
 import {Marker} from '../map/Marker';
+import {MapCardData} from '../map-card/MapCardData';
 
 @Component({
   selector: 'app-map-widget',
@@ -13,39 +14,50 @@ export class MapWidgetComponent implements OnInit {
 
   loadMap = false;
   hotelMarkerDataList: any = [];
+  mapCardDataList: any = [];
   enteredMapCardID: number;
 
   constructor(private http: Http) {
-    this.getHotelData();
+    this.getData();
   }
 
   ngOnInit() {
   }
 
-  getHotelData() {
+  getData() {
     this.http.get('mocks/mapData.json').subscribe(data => {
       const results = (JSON.parse(data['_body'])['results']);
       results.forEach((result) => {
-        const hotels = result.product.items.filter((item) => {
+        const hotel = result.product.items.filter((item) => {
           return (item.productCode === 'HTL');
+        });
+
+        const generic = result.product.items.filter((item) => {
+          return (item.productCode === 'GEN');
         });
 
         const tempPointObj = new Point();
         const tempMarkerObj = new Marker();
         const tempHotelMarkerObj = new HotelMarkerData();
+        const tempMapCardDataObj = new MapCardData();
 
-        tempPointObj.lat = hotels[0].latitude;
-        tempPointObj.lng = hotels[0].longitude;
+        tempPointObj.lat = hotel[0].latitude;
+        tempPointObj.lng = hotel[0].longitude;
 
         tempMarkerObj.point = tempPointObj;
-        tempMarkerObj.uid = hotels[0].accomId;
+        tempMarkerObj.uid = hotel[0].accomId;
+
+        tempMapCardDataObj.uid = hotel[0].accomId;
+        tempMapCardDataObj.hotel = hotel[0];
+        tempMapCardDataObj.generic = generic[0];
 
         tempHotelMarkerObj.marker = tempMarkerObj;
-
         this.hotelMarkerDataList.push(tempHotelMarkerObj);
-
+        this.mapCardDataList.push(tempMapCardDataObj);
         this.loadMap = true;
       });
+      console.log(this.hotelMarkerDataList);
+      console.log(this.mapCardDataList);
     }, (error) => {
       this.loadMap = true;
       console.log(error);
@@ -53,7 +65,7 @@ export class MapWidgetComponent implements OnInit {
   }
 
   mouseEnterMapCard(data, i) {
-    this.enteredMapCardID = ((data['marker'])['uid']);
+    this.enteredMapCardID = ((data['uid']));
   }
 
   mouseLeaveMapCard(data, i) {

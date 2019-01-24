@@ -1,22 +1,28 @@
 <div class="map-card__thumb">
-  <img [src]="mainImage" onImageLoadFail={{defaultImage}} onParent={{true}} class="recommend-img" alt="Recommend" title="We highly recommend this hotel">
+  <img [src]="(hotel?.contentNode?.mainImages.length > 0)? hotel?.contentNode?.mainImages[0]?.imageUrl :''" onImageLoadFail={{defaultImage}} onParent={{true}}>
 </div>
-
 <div class="map-card__content">
-  <div class="map-card__content-hotel-name">Royal Rose Hotel New 2 with 2 Days Any 2 Parks</div>
+  <div class="map-card__content-hotel-name">
+    {{hotel?.contentNode?.hotelName != null ? hotel?.contentNode?.hotelName : hotel?.name }}
+    <span
+      *ngIf="generic"> with {{generic?.contentNode?.name != null ? generic?.contentNode?.name : generic?.name }}
+    </span>
+  </div>
   <div class="map-card__content-hotel-stars">
 
     <div class="star-rating">
-      <ng-container>
-        <app-map-card-star-rating [starValue]="'3.5'" [starCount]="5"></app-map-card-star-rating>
+      <ng-container *ngIf="hotel.accomType == 'HOT'">
+        <app-map-card-star-rating [starValue]="hotel?.starRating" [starCount]="5"></app-map-card-star-rating>
       </ng-container>
-      <ng-container>
+      <ng-container *ngIf="hotel.accomType == 'APT'">
         <div class="rating-label"><span>{{hotel?.starRating}}</span></div>
       </ng-container>
     </div>
 
   </div>
-  <div class="map-card__content-hotel-price">AED 1,128.67</div>
+  <div class="map-card__content-hotel-price">
+    {{hotel?.sellingCurrencySymbol}} {{hotel?.totalPrice + generic?.totalPrice}}
+  </div>
 </div>
 <div class="map-card__link"></div>
 

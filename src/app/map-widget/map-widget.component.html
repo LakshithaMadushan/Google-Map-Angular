@@ -7,9 +7,10 @@
                [EnteredMapCardID]="enteredMapCardID" (EmitSelectedMarkerId)="scrollToCards($event)"></app-map>
     </section>
     <section class="map-view__results">
-      <ng-container *ngFor="let hotelMarkerData of hotelMarkerDataList; let i = index;">
-        <app-map-card [id]="hotelMarkerData.marker.uid" (mouseenter)="mouseEnterMapCard(hotelMarkerData, i)"
-                      (mouseleave)="mouseLeaveMapCard(hotelMarkerData, i)" class="map-card"></app-map-card>
+      <ng-container *ngFor="let mapCardData of mapCardDataList; let i = index;">
+        <app-map-card [id]="mapCardData.uid" (mouseenter)="mouseEnterMapCard(mapCardData, i)"
+                      [Hotel]="mapCardData.hotel" [Generic]="mapCardData.generic"
+                      (mouseleave)="mouseLeaveMapCard(mapCardData, i)" class="map-card"></app-map-card>
       </ng-container>
     </section>
   </div>
