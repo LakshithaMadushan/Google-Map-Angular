@@ -29,12 +29,12 @@ export class MapComponent implements OnInit, OnChanges {
   searchPlaces: any;
   searchPlaceMarkers: any = [];
   mapStyles: any;
+  uidMarkerPairList: any = [];
+  mapCardActivatedMarker: any;
 
   constructor(private _elem: ElementRef, private getMapStylesService: GetMapStylesService) {
     // this.markersList = [
-    //   {point: {lat: 25.774252, lng: -80.190262}, uid: 1, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP},
-    //   {point: {lat: 18.466465, lng: -66.118292}, uid: 2, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP},
-    //   {point: {lat: 32.321384, lng: -64.757370}, uid: 3, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP}
+    //   {point: {lat: 25.774252, lng: -80.190262}, uid: 1, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP}
     // ];
   }
 
@@ -64,15 +64,30 @@ export class MapComponent implements OnInit, OnChanges {
           animation: (data.marker.animation) ? Animation.BOUNCE : Animation.DROP
         });
     });
-
-    console.log(this.markersList);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['enteredMapCardID'] && !changes['enteredMapCardID'].firstChange) {
       if (this.enteredMapCardID !== undefined) {
         this.resetBouncingMarker(this.selectedMarker);
-        this.selectedMarker = undefined;
+        const marker = this.uidMarkerPairList.filter((pair) => {
+          return (this.enteredMapCardID === pair.uid);
+        });
+        this.mapCardActivatedMarker = (marker[0]).marker;
+        this.mapCardActivatedMarker.setMap(null);
+        this.mapCardActivatedMarker = this.marker(this.mapCardActivatedMarker.position.lat(), this.mapCardActivatedMarker.position.lng(), this.mapCardActivatedMarker.unique_id, 'assets/icons/marker-hotel-highlight.png', Animation.BOUNCE);
+      }
+    }
+
+    if (changes['enteredMapCardID'] && !changes['enteredMapCardID'].firstChange) {
+      if (this.enteredMapCardID === undefined) {
+        this.mapCardActivatedMarker.setMap(null);
+        const temp = this.marker(this.mapCardActivatedMarker.internalPosition.lat(), this.mapCardActivatedMarker.internalPosition.lng(), this.mapCardActivatedMarker.unique_id, 'assets/icons/marker-hotel.png', Animation.NONE);
+        this.uidMarkerPairList.forEach((pair) => {
+          if (pair.uid === this.mapCardActivatedMarker.unique_id) {
+            pair.marker = temp;
+          }
+        });
       }
     }
   }
@@ -104,7 +119,7 @@ export class MapComponent implements OnInit, OnChanges {
     return this.load().then(() => {
       this.map = new google.maps.Map(el, {
         zoom: (this.mapZoomLevel) ? (this.mapZoomLevel) : 5,
-        center: new google.maps.LatLng(24.466667, 54.366669),
+        center: new google.maps.LatLng(24.476667, 54.466669),
         mapTypeId: MapTypeId.roadmap,
         gestureHandling: 'cooperative',
         mapTypeControl: false,
@@ -148,7 +163,7 @@ export class MapComponent implements OnInit, OnChanges {
 
             this.searchPlaceMarkers.push(new google.maps.Marker({
               map: this.map,
-              icon: 'https://surffleximg.codegen.net/~fdmqa/surf-root/images/map-itinerary-hotel.png',
+              icon: 'assets/icons/marker-hotel-highlight.png',
               title: place.name,
               position: place.geometry.location
             }));
@@ -166,12 +181,10 @@ export class MapComponent implements OnInit, OnChanges {
 
       google.maps.event.addListener(this.map, 'click', (() => {
         this.resetBouncingMarker(this.selectedMarker);
-        this.selectedMarker = undefined;
       }));
 
       google.maps.event.addListener(this.infoWindow, 'closeclick', (() => {
         this.resetBouncingMarker(this.selectedMarker);
-        this.selectedMarker = undefined;
       }));
 
       return;
@@ -190,7 +203,6 @@ export class MapComponent implements OnInit, OnChanges {
     google.maps.event.addListener(marker, 'click', (() => {
       if (this.selectedMarker && (marker.unique_id !== this.selectedMarker.unique_id)) {
         this.resetBouncingMarker(this.selectedMarker);
-        this.selectedMarker = undefined;
       }
       this.clickOnMarker(marker);
     }));
@@ -201,14 +213,23 @@ export class MapComponent implements OnInit, OnChanges {
   resetBouncingMarker(selectedMarker) {
     if (selectedMarker) {
       selectedMarker.setMap(null);
-      this.marker(selectedMarker.internalPosition.lat(), selectedMarker.internalPosition.lng(), selectedMarker.unique_id, selectedMarker.icon, Animation.NONE);
+      const temp = this.marker(selectedMarker.internalPosition.lat(), selectedMarker.internalPosition.lng(), selectedMarker.unique_id, 'assets/icons/marker-hotel.png', Animation.NONE);
+      this.uidMarkerPairList.forEach((pair) => {
+        if (pair.uid === selectedMarker.unique_id) {
+          pair.marker = temp;
+        }
+      });
+      this.selectedMarker = undefined;
     }
   }
 
   public mapMarkers() {
     if (this.markersList.length > 0) {
       this.markersList.forEach((marker) => {
-        this.marker(marker.point.lat, marker.point.lng, marker.uid, marker.icon, marker.animation);
+        this.uidMarkerPairList.push({
+          'uid': marker.uid,
+          'marker': this.marker(marker.point.lat, marker.point.lng, marker.uid, marker.icon, marker.animation)
+        });
       });
     }
   }
@@ -218,7 +239,7 @@ export class MapComponent implements OnInit, OnChanges {
     if (this.markersList.length > 0) {
       this.markersList.forEach((marker) => {
         if (marker.uid === clickedMarker.get('unique_id')) {
-          this.selectedMarker = this.marker(marker.point.lat, marker.point.lng, marker.uid, marker.icon, Animation.BOUNCE);
+          this.selectedMarker = this.marker(marker.point.lat, marker.point.lng, marker.uid, 'assets/icons/marker-hotel-highlight.png', Animation.BOUNCE);
           this.infoWindow.setContent(
             '<div class=\'info-card\'>' +
             '<div class=\'info-card-top\'>' +
