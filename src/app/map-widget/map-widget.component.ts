@@ -11,9 +11,6 @@ import {Marker} from '../map/Marker';
 })
 export class MapWidgetComponent implements OnInit {
 
-  @Output() enterMapCard: EventEmitter<any> = new EventEmitter();
-  @Output() leaveMapCard: EventEmitter<any> = new EventEmitter();
-
   loadMap = false;
   hotelMarkerDataList: any = [];
   enteredMapCardID: number;
@@ -61,5 +58,12 @@ export class MapWidgetComponent implements OnInit {
 
   mouseLeaveMapCard(data, i) {
     this.enteredMapCardID = undefined;
+  }
+
+  scrollToCards(uid) {
+    const element = document.getElementById(uid);
+    element.scrollIntoView({
+      behavior: 'smooth'
+    });
   }
 }

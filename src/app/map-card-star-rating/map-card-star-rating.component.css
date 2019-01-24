@@ -1,0 +1,54 @@
+/*.map-card-star-ratings {*/
+  /*unicode-bidi: bidi-override;*/
+  /*color: #e0e0e0;*/
+  /*font-size: 20px;*/
+  /*height: 20px;*/
+  /*width: auto;*/
+  /*display: table;*/
+  /*position: relative;*/
+  /*padding: 0;*/
+  /*line-height: 18px;*/
+  /*text-indent: initial;*/
+  /*z-index: 0;*/
+/*}*/
+
+/*.map-card-star-ratings i {*/
+  /*font-style: normal;*/
+/*}*/
+
+/*.map-card-star-ratings i:before {*/
+  /*width: 25px;*/
+  /*display: inline-block;*/
+  /*margin-left: -2px;*/
+/*}*/
+
+/*html[dir=rtl] .map-card-star-ratings i:before {*/
+  /*margin-right: -2px;*/
+/*}*/
+
+/*.map-card-star-ratings .star-item:before {*/
+  /*font-family: "icomoon";*/
+  /*content: "";*/
+/*}*/
+
+/*.map-card-star-ratings__top {*/
+  /*color: #8A4694;*/
+  /*display: block;*/
+  /*text-shadow: 0 0 1px #8A4694;*/
+  /*padding: 0;*/
+  /*position: absolute;*/
+  /*left: 0;*/
+  /*overflow: hidden;*/
+  /*z-index: 1;*/
+  /*height: 20px;*/
+  /*white-space: nowrap;*/
+/*}*/
+
+/*html[dir=rtl] .map-card-star-ratings__top {*/
+  /*right: 0;*/
+  /*left: auto;*/
+/*}*/
+
+/*.map-card-star-ratings__bottom {*/
+  /*z-index: 0;*/
+/*}*/

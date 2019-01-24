@@ -9,13 +9,15 @@ import {MapWidgetComponent} from './map-widget/map-widget.component';
 import {MapCardComponent} from './map-card/map-card.component';
 import {HttpModule} from '@angular/http';
 import {GetMapStylesService} from './map/get-map-styles.service';
+import { MapCardStarRatingComponent } from './map-card-star-rating/map-card-star-rating.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     MapWidgetComponent,
-    MapCardComponent
+    MapCardComponent,
+    MapCardStarRatingComponent
   ],
   imports: [
     BrowserModule,

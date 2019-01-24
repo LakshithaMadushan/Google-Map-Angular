@@ -4,11 +4,11 @@
     <label class="map-view__toggle-label" for="map-view__toggle-check"><span>▶</span></label>
     <section class="map-view__map">
       <app-map *ngIf="loadMap" [HotelMarkerDataList]="hotelMarkerDataList" [ZoomLevel]="12" [MapStyle]="2"
-               [EnteredMapCardID]="enteredMapCardID"></app-map>
+               [EnteredMapCardID]="enteredMapCardID" (EmitSelectedMarkerId)="scrollToCards($event)"></app-map>
     </section>
     <section class="map-view__results">
       <ng-container *ngFor="let hotelMarkerData of hotelMarkerDataList; let i = index;">
-        <app-map-card (mouseenter)="mouseEnterMapCard(hotelMarkerData, i)"
+        <app-map-card [id]="hotelMarkerData.marker.uid" (mouseenter)="mouseEnterMapCard(hotelMarkerData, i)"
                       (mouseleave)="mouseLeaveMapCard(hotelMarkerData, i)" class="map-card"></app-map-card>
       </ng-container>
     </section>

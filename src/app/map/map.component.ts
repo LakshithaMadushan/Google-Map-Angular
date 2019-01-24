@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MapTypeId} from './MapTypeId.enum';
 import {Animation} from './Animation.enum';
 import {GetMapStylesService} from './get-map-styles.service';
@@ -19,6 +19,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Input('EnablePlaceSearch') placeSearch = false;
   @Input('MapStyle') setMapStyle;
   @Input('EnteredMapCardID') enteredMapCardID: number;
+  @Output('EmitSelectedMarkerId') emitSelectedMarkerId: EventEmitter<any> = new EventEmitter();
 
   markersList: any = [];
   map: any;
@@ -82,7 +83,7 @@ export class MapComponent implements OnInit, OnChanges {
     if (changes['enteredMapCardID'] && !changes['enteredMapCardID'].firstChange) {
       if (this.enteredMapCardID === undefined) {
         this.mapCardActivatedMarker.setMap(null);
-        const temp = this.marker(this.mapCardActivatedMarker.internalPosition.lat(), this.mapCardActivatedMarker.internalPosition.lng(), this.mapCardActivatedMarker.unique_id, 'assets/icons/marker-hotel.png', Animation.NONE);
+        const temp = this.marker(this.mapCardActivatedMarker.position.lat(), this.mapCardActivatedMarker.position.lng(), this.mapCardActivatedMarker.unique_id, 'assets/icons/marker-hotel.png', Animation.NONE);
         this.uidMarkerPairList.forEach((pair) => {
           if (pair.uid === this.mapCardActivatedMarker.unique_id) {
             pair.marker = temp;
@@ -205,6 +206,7 @@ export class MapComponent implements OnInit, OnChanges {
         this.resetBouncingMarker(this.selectedMarker);
       }
       this.clickOnMarker(marker);
+      this.emitSelectedMarkerId.emit(marker.unique_id);
     }));
 
     return marker;
