@@ -56,8 +56,6 @@ export class MapWidgetComponent implements OnInit {
         this.mapCardDataList.push(tempMapCardDataObj);
         this.loadMap = true;
       });
-      console.log(this.hotelMarkerDataList);
-      console.log(this.mapCardDataList);
     }, (error) => {
       this.loadMap = true;
       console.log(error);

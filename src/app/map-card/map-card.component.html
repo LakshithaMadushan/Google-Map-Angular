@@ -1,5 +1,5 @@
 <div class="map-card__thumb">
-  <img [src]="(hotel?.contentNode?.mainImages.length > 0)? hotel?.contentNode?.mainImages[0]?.imageUrl :''" onImageLoadFail={{defaultImage}} onParent={{true}}>
+  <img [src]="(hotel?.contentNode?.mainImages.length > 0)? ((hotel?.contentNode?.mainImages[0]?.thumbImageUrl) ? hotel?.contentNode?.mainImages[0]?.thumbImageUrl : hotel?.contentNode?.mainImages[0]?.imageUrl) :''" onImageLoadFail={{defaultImage}} onParent={{true}}>
 </div>
 <div class="map-card__content">
   <div class="map-card__content-hotel-name">

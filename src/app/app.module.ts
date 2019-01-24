@@ -11,6 +11,7 @@ import {HttpModule} from '@angular/http';
 import {GetMapStylesService} from './map/get-map-styles.service';
 import {MapCardStarRatingComponent} from './map-card-star-rating/map-card-star-rating.component';
 import {DefaultImage} from './directives/default-image.directive';
+import {ConfigService} from './services/config.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import {DefaultImage} from './directives/default-image.directive';
     FormsModule,
     HttpModule
   ],
-  providers: [GetMapStylesService],
+  providers: [GetMapStylesService, ConfigService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

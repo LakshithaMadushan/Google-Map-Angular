@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ConfigService} from '../services/config.service';
 
 @Component({
   selector: 'app-map-card',
@@ -10,10 +11,10 @@ export class MapCardComponent implements OnInit {
   @Input('Hotel') hotel: any;
   @Input('Generic') generic: any;
 
-  mainImage = '';
-  defaultImage = 'assets/error/image-not-available.jpg';
+  defaultImage: string;
 
-  constructor() {
+  constructor(private configService: ConfigService) {
+    this.defaultImage = this.configService.get('buddy', 'ERROR_IMAGE');
   }
 
   ngOnInit() {
