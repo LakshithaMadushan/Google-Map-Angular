@@ -1,4 +1,7 @@
-<div class="map-card__thumb">image</div>
+<div class="map-card__thumb">
+  <img [src]="mainImage" onImageLoadFail={{defaultImage}} onParent={{true}} class="recommend-img" alt="Recommend" title="We highly recommend this hotel">
+</div>
+
 <div class="map-card__content">
   <div class="map-card__content-hotel-name">Royal Rose Hotel New 2 with 2 Days Any 2 Parks</div>
   <div class="map-card__content-hotel-stars">

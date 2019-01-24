@@ -9,7 +9,8 @@ import {MapWidgetComponent} from './map-widget/map-widget.component';
 import {MapCardComponent} from './map-card/map-card.component';
 import {HttpModule} from '@angular/http';
 import {GetMapStylesService} from './map/get-map-styles.service';
-import { MapCardStarRatingComponent } from './map-card-star-rating/map-card-star-rating.component';
+import {MapCardStarRatingComponent} from './map-card-star-rating/map-card-star-rating.component';
+import {DefaultImage} from './directives/default-image.directive';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { MapCardStarRatingComponent } from './map-card-star-rating/map-card-star
     MapComponent,
     MapWidgetComponent,
     MapCardComponent,
-    MapCardStarRatingComponent
+    MapCardStarRatingComponent,
+    DefaultImage
   ],
   imports: [
     BrowserModule,

@@ -21,7 +21,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/mocks"
+              "src/mocks",
+              "src/config"
             ],
             "styles": [
               "src/styles.css"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-map-card',
@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MapCardComponent implements OnInit {
 
-  constructor() { }
+  mainImage = '';
+  defaultImage = 'assets/error/image-not-available.jpg';
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
