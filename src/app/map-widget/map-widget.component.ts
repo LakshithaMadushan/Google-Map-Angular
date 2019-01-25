@@ -16,6 +16,7 @@ export class MapWidgetComponent implements OnInit {
   hotelMarkerDataList: any = [];
   mapCardDataList: any = [];
   enteredMapCardID: number;
+  selectedMarkerID: number;
 
   constructor(private http: Http) {
     this.getData();
@@ -71,6 +72,7 @@ export class MapWidgetComponent implements OnInit {
   }
 
   scrollToCards(uid) {
+    this.selectedMarkerID = uid;
     const element = document.getElementById(uid);
     element.scrollIntoView({
       behavior: 'smooth'

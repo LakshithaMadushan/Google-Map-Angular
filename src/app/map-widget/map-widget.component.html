@@ -3,14 +3,16 @@
     <input class="map-view__toggle-check" id="map-view__toggle-check" type="checkbox" role="button"/>
     <label class="map-view__toggle-label" for="map-view__toggle-check"><span>▶</span></label>
     <section class="map-view__map">
-      <app-map *ngIf="loadMap" [HotelMarkerDataList]="hotelMarkerDataList" [ZoomLevel]="12" [MapStyle]="2"
+      <app-map *ngIf="loadMap" [HotelMarkerDataList]="hotelMarkerDataList" [ZoomLevel]="11" [MapStyle]="2"
                [EnteredMapCardID]="enteredMapCardID" (EmitSelectedMarkerId)="scrollToCards($event)"></app-map>
     </section>
     <section class="map-view__results">
       <ng-container *ngFor="let mapCardData of mapCardDataList; let i = index;">
-        <app-map-card [id]="mapCardData.uid" (mouseenter)="mouseEnterMapCard(mapCardData, i)"
+        <app-map-card [id]="mapCardData.uid"
+                      (mouseenter)="mouseEnterMapCard(mapCardData, i); (mapCardData.uid == selectedMarkerID) ? '':(selectedMarkerID = undefined)"
                       [Hotel]="mapCardData.hotel" [Generic]="mapCardData.generic"
-                      (mouseleave)="mouseLeaveMapCard(mapCardData, i)" class="map-card"></app-map-card>
+                      (mouseleave)="mouseLeaveMapCard(mapCardData, i)" class="map-card"
+                      [ngClass]="(mapCardData.uid == selectedMarkerID) ? 'map-card--highlight':''"></app-map-card>
       </ng-container>
     </section>
   </div>

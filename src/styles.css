@@ -1,271 +1,235 @@
+/*!*#map {*!*/
+/*!*width: 100%;*!*/
+/*!*height: 720px;*!*/
+/*!*}*!*/
+
+/*!*.gm-style div {*!*/
+/*!*box-shadow: none !important;*!*/
+/*!*border: 0 !important;*!*/
+/*!*background: transparent !important;*!*/
+/*!*}*!*/
+
+/*!*div.info-card {*!*/
+/*!*background: #fff !important;*!*/
+/*!*box-shadow: 2px 2px #CDCFD8 !important;*!*/
+/*!*font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,*!*/
+/*!*"Helvetica Neue", Arial, sans-serif;*!*/
+/*!*font-weight: 400;*!*/
+/*!*width: 372px;*!*/
+/*!*}*!*/
+
+/*!*div.info-card-top {*!*/
+/*!*align-items: center;*!*/
+/*!*background: darkgrey !important;*!*/
+/*!*color: #fff;*!*/
+/*!*display: flex;*!*/
+/*!*}*!*/
+
+/*!*.info-card-heading {*!*/
+/*!*font-size: 20px;*!*/
+/*!*font-weight: 500;*!*/
+/*!*margin-bottom: 10px;*!*/
+/*!*}*!*/
+
+/*!*.info-card-bottom p {*!*/
+/*!*color: #88888c;*!*/
+/*!*font-size: 12px;*!*/
+/*!*line-height: 2;*!*/
+/*!*padding: 24px;*!*/
+/*!*}*!*/
+
+/*!*.gm-style .gm-style-iw,*!*/
+/*!*.gm-style .gm-style-iw div {*!*/
+/*!*overflow: visible !important;*!*/
+/*!*}*!*/
+
+/*!*.gm-style .gm-style-iw + div {*!*/
+/*!*display: none !important;*!*/
+/*!*}*!*/
+
+/*!*!* You can add global styles to this file, and also import other style files *!*!*/
+
+/*!*.gm-ui-hover-effect {*!*/
+/*!*width: 50px !important;*!*/
+/*!*}*!*/
+
+/*!***/
+ /** Copyright (c) 2019. - All Rights Reserved*/
+ /** Unauthorized copying of this file, via any medium is strictly prohibited*/
+ /** Proprietary and confidential*/
+ /** Created by tharakan on 1/22/2019 2:12 PM*/
+ /**!*/
+/*!* Always set the map height explicitly to define the size of the div*/
+       /** element that contains the map. *!*/
+
+/** {*/
+  /*box-sizing: border-box;*/
+/*}*/
+
 /*#map {*/
-/*width: 100%;*/
-/*height: 720px;*/
+  /*height: 100%;*/
 /*}*/
 
-/*.gm-style div {*/
-/*box-shadow: none !important;*/
-/*border: 0 !important;*/
-/*background: transparent !important;*/
+/*.map-view-container {*/
+  /*position: fixed;*/
+  /*top: 0;*/
+  /*right: 0;*/
+  /*left: 0;*/
+  /*bottom: 0;*/
+  /*background-color: rgba(25, 19, 46, 0.5);*/
+  /*display: -webkit-box;*/
+  /*display: -ms-flexbox;*/
+  /*display: flex;*/
+  /*-ms-flex-wrap: wrap;*/
+  /*flex-wrap: wrap;*/
+  /*-webkit-box-pack: center;*/
+  /*-ms-flex-pack: center;*/
+  /*justify-content: center;*/
+  /*-webkit-box-align: center;*/
+  /*-ms-flex-align: center;*/
+  /*align-items: center;*/
+  /*width: 100%;*/
+  /*min-height: 100vh;*/
+  /*z-index: 10;*/
 /*}*/
 
-/*div.info-card {*/
-/*background: #fff !important;*/
-/*box-shadow: 2px 2px #CDCFD8 !important;*/
-/*font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,*/
-/*"Helvetica Neue", Arial, sans-serif;*/
-/*font-weight: 400;*/
-/*width: 372px;*/
+/*.map-view-container:before {*/
+  /*content: "";*/
+  /*position: absolute;*/
+  /*top: 0;*/
+  /*left: 0;*/
+  /*width: 100%;*/
+  /*height: 100%;*/
+  /*background-color: #fff;*/
+  /*opacity: .5;*/
 /*}*/
 
-/*div.info-card-top {*/
-/*align-items: center;*/
-/*background: darkgrey !important;*/
-/*color: #fff;*/
-/*display: flex;*/
+/*.map-view {*/
+  /*display: -webkit-box;*/
+  /*display: -ms-flexbox;*/
+  /*display: flex;*/
+  /*position: relative;*/
+  /*width: 90%;*/
+  /*max-width: 100%;*/
+  /*height: -webkit-calc(100vh - 100px);*/
+  /*height: calc(100vh - 100px);*/
+  /*max-height: 100%;*/
+  /*background: #fff;*/
+  /*-webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.12);*/
+  /*box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.12);*/
+  /*z-index: 20;*/
 /*}*/
 
-/*.info-card-heading {*/
-/*font-size: 20px;*/
-/*font-weight: 500;*/
-/*margin-bottom: 10px;*/
+/*.map-view__map {*/
+  /*-webkit-box-flex: 1;*/
+  /*-ms-flex: 1;*/
+  /*flex: 1;*/
+  /*position: absolute;*/
+  /*top: 0;*/
+  /*right: 400px;*/
+  /*bottom: 0;*/
+  /*left: 0;*/
+  /*-webkit-transition: right 0.3s ease;*/
+  /*transition: right 0.3s ease;*/
+  /*z-index: 11;*/
 /*}*/
 
-/*.info-card-bottom p {*/
-/*color: #88888c;*/
-/*font-size: 12px;*/
-/*line-height: 2;*/
-/*padding: 24px;*/
+/*.map-view__results {*/
+  /*padding: 15px;*/
+  /*overflow: auto;*/
+  /*position: absolute;*/
+  /*top: 0;*/
+  /*right: 0;*/
+  /*background: #fff;*/
+  /*bottom: 0;*/
+  /*width: 400px;*/
+  /*-webkit-transition: right 0.3s ease;*/
+  /*transition: right 0.3s ease;*/
 /*}*/
 
-/*.gm-style .gm-style-iw,*/
-/*.gm-style .gm-style-iw div {*/
-/*overflow: visible !important;*/
+/*.map-view__toggle-check {*/
+  /*display: none;*/
 /*}*/
 
-/*.gm-style .gm-style-iw + div {*/
-/*display: none !important;*/
+/*.map-view__toggle-check:checked ~ .map-view__map {*/
+  /*right: 0;*/
 /*}*/
 
-/*!* You can add global styles to this file, and also import other style files *!*/
-
-/*.gm-ui-hover-effect {*/
-/*width: 50px !important;*/
+/*.map-view__toggle-check:checked ~ .map-view__toggle-label {*/
+  /*right: 0;*/
 /*}*/
 
-/**
- * Copyright (c) 2019. - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Created by tharakan on 1/22/2019 2:12 PM
- */
-/* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
+/*.map-view__toggle-label {*/
+  /*position: absolute;*/
+  /*top: 80px;*/
+  /*right: 400px;*/
+  /*padding: 25px 15px;*/
+  /*background-color: blue;*/
+  /*cursor: pointer;*/
+  /*z-index: 20;*/
+  /*-webkit-transition: right 0.3s ease;*/
+  /*transition: right 0.3s ease;*/
+/*}*/
 
-* {
-  box-sizing: border-box;
-}
+/*.map-card {*/
+  /*display: -webkit-box;*/
+  /*display: -ms-flexbox;*/
+  /*display: flex;*/
+  /*background-color: #ededed;*/
+  /*margin-bottom: 10px;*/
+  /*cursor: pointer;*/
+  /*-webkit-transition: all 0.5s ease;*/
+  /*transition: all 0.5s ease;*/
+/*}*/
 
-#map {
-  height: 100%;
-}
+/*.map-card--highlight {*/
+  /*border: 2px solid #04AEDE;*/
+/*}*/
 
-.map-view-container {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background-color: rgba(25, 19, 46, 0.5);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: 100%;
-  min-height: 100vh;
-  z-index: 10;
-}
+/*.map-card:hover {*/
+  /*background-color: #e0e0e0;*/
+  /*-webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.12);*/
+  /*box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.12);*/
+/*}*/
 
-.map-view-container:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-  opacity: .5;
-}
+/*.map-card__thumb {*/
+  /*-ms-flex-preferred-size: 80px;*/
+  /*flex-basis: 80px;*/
+  /*margin: 10px;*/
+  /*background-color: #777;*/
+  /*background-image: url("http://www.pegasusreefhotel.com/wp-content/uploads/2013/04/enchanting-coastal-sanctuary.jpg");*/
+  /*background-position: center;*/
+  /*background-repeat: no-repeat;*/
+  /*background-size: cover;*/
+/*}*/
 
-.map-view {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  position: relative;
-  width: 90%;
-  max-width: 100%;
-  height: -webkit-calc(100vh - 100px);
-  height: calc(100vh - 100px);
-  max-height: 100%;
-  background: #fff;
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.12);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.12);
-  z-index: 20;
-}
+/*.map-card__content {*/
+  /*-webkit-box-flex: 1;*/
+  /*-ms-flex: 1;*/
+  /*flex: 1;*/
+  /*margin: 10px 0;*/
+/*}*/
 
-.map-view__map {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  position: absolute;
-  top: 0;
-  right: 400px;
-  bottom: 0;
-  left: 0;
-  -webkit-transition: right 0.3s ease;
-  transition: right 0.3s ease;
-  z-index: 11;
-}
+/*.map-card__content-hotel-name {*/
+  /*line-height: 1.3;*/
+  /*color: #19132e;*/
+/*}*/
 
-.map-view__results {
-  padding: 15px;
-  overflow: auto;
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: #fff;
-  bottom: 0;
-  width: 400px;
-  -webkit-transition: right 0.3s ease;
-  transition: right 0.3s ease;
-}
+/*.map-card__content-hotel-stars {*/
+  /*color: #8A4694;*/
+/*}*/
 
-.map-view__toggle-check {
-  display: none;
-}
+/*.map-card__content-hotel-price {*/
+  /*font-weight: bold;*/
+  /*color: #154998;*/
+/*}*/
 
-.map-view__toggle-check:checked ~ .map-view__map {
-  right: 0;
-}
-
-.map-view__toggle-check:checked ~ .map-view__toggle-label {
-  right: 0;
-}
-
-.map-view__toggle-label {
-  position: absolute;
-  top: 80px;
-  right: 400px;
-  padding: 25px 15px;
-  background-color: blue;
-  cursor: pointer;
-  z-index: 20;
-  -webkit-transition: right 0.3s ease;
-  transition: right 0.3s ease;
-}
-
-.map-card {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  background-color: #f9f4e9;
-  margin-bottom: 10px;
-}
-
-.map-card__thumb {
-  -ms-flex-preferred-size: 100px;
-  flex-basis: 100px;
-  margin: 10px;
-  background-color: #777;
-}
-
-.map-card__content {
-  margin: 10px 0;
-  background-color: #ccc;
-}
-
-.map-card__link {
-  -ms-flex-preferred-size: 35px;
-  flex-basis: 35px;
-  margin-left: 10px;
-  background-color: #2162af;
-}
-
-/* star rating */
-
-.map-card-star-ratings {
-  unicode-bidi: bidi-override;
-  color: #e0e0e0;
-  font-size: 20px;
-  height: 20px;
-  width: auto;
-  display: table;
-  position: relative;
-  padding: 0;
-  line-height: 18px;
-  text-indent: initial;
-  z-index: 0;
-}
-
-.map-card-star-ratings i {
-  font-style: normal;
-}
-
-.map-card-star-ratings i:before {
-  width: 25px;
-  display: inline-block;
-  margin-left: -2px;
-}
-
-html[dir=rtl] .map-card-star-ratings i:before {
-  margin-right: -2px;
-}
-
-.map-card-star-ratings .star-item:before {
-  font-family: "icomoon";
-  content: "";
-}
-
-.map-card-star-ratings__top {
-  color: #8A4694;
-  display: block;
-  text-shadow: 0 0 1px #8A4694;
-  padding: 0;
-  position: absolute;
-  left: 0;
-  overflow: hidden;
-  z-index: 1;
-  height: 20px;
-  white-space: nowrap;
-}
-
-html[dir=rtl] .map-card-star-ratings__top {
-  right: 0;
-  left: auto;
-}
-
-.map-card-star-ratings__bottom {
-  z-index: 0;
-}
-
-/* label rating */
-
-.map-card__content .star-rating .rating-label, .map-card__content .star-rating .rating-label {
-  margin-top: 3px;
-}
-
- .map-card__content .star-rating .rating-label span, .map-card__content .star-rating .rating-label span {
-  font-size: 13px;
-  font-size: 0.8125rem;
-  color: #fff;
-  background-color: #EB8007;
-  padding: 4px 10px;
-  border-radius: 5px;
-}
+/*.map-card__link {*/
+  /*-ms-flex-preferred-size: 35px;*/
+  /*flex-basis: 35px;*/
+  /*margin-left: 10px;*/
+  /*background-color: #FFF;*/
+  /*border-top-right-radius: 6px;*/
+  /*border-bottom-right-radius: 6px;*/
+  /*border: 1px solid #ededed;*/
+/*}*/

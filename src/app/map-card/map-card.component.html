@@ -1,5 +1,7 @@
 <div class="map-card__thumb">
-  <img [src]="(hotel?.contentNode?.mainImages.length > 0)? ((hotel?.contentNode?.mainImages[0]?.thumbImageUrl) ? hotel?.contentNode?.mainImages[0]?.thumbImageUrl : hotel?.contentNode?.mainImages[0]?.imageUrl) :''" onImageLoadFail={{defaultImage}} onParent={{true}}>
+  <img
+    [src]="(hotel?.contentNode?.mainImages.length > 0)? ((hotel?.contentNode?.mainImages[0]?.thumbImageUrl) ? hotel?.contentNode?.mainImages[0]?.thumbImageUrl : hotel?.contentNode?.mainImages[0]?.imageUrl) :''"
+    onImageLoadFail={{defaultImage}} onParent={{true}}>
 </div>
 <div class="map-card__content">
   <div class="map-card__content-hotel-name">
@@ -10,14 +12,12 @@
   </div>
   <div class="map-card__content-hotel-stars">
 
-    <div class="star-rating">
-      <ng-container *ngIf="hotel.accomType == 'HOT'">
-        <app-map-card-star-rating [starValue]="hotel?.starRating" [starCount]="5"></app-map-card-star-rating>
-      </ng-container>
-      <ng-container *ngIf="hotel.accomType == 'APT'">
-        <div class="rating-label"><span>{{hotel?.starRating}}</span></div>
-      </ng-container>
-    </div>
+    <ng-container *ngIf="hotel.accomType == 'HOT'">
+      <app-map-card-star-rating [starValue]="hotel?.starRating" [starCount]="5"></app-map-card-star-rating>
+    </ng-container>
+    <ng-container *ngIf="hotel.accomType == 'APT'">
+      <div class="rating-label"><span>{{hotel?.starRating}}</span></div>
+    </ng-container>
 
   </div>
   <div class="map-card__content-hotel-price">

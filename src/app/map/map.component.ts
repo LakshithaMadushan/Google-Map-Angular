@@ -33,6 +33,13 @@ export class MapComponent implements OnInit, OnChanges {
   uidMarkerPairList: any = [];
   mapCardActivatedMarker: any;
 
+  imageBounds = {
+    north: 40.773941,
+    south: 40.712216,
+    east: -74.12544,
+    west: -74.22655
+  };
+
   constructor(private _elem: ElementRef, private getMapStylesService: GetMapStylesService) {
     // this.markersList = [
     //   {point: {lat: 25.774252, lng: -80.190262}, uid: 1, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP}
@@ -132,6 +139,14 @@ export class MapComponent implements OnInit, OnChanges {
         }
       });
 
+      this.map.data.loadGeoJson('assets/geo/abu-dhabi-geojson.json');
+      this.map.data.setStyle({
+        fillColor: '#884891',
+        strokeWeight: 2,
+        fillOpacity: 0.03,
+        strokeColor: '#884891',
+        strokeOpacity: 0.7
+      });
       this.mapMarkers();
       this.infoWindow = new google.maps.InfoWindow();
 
