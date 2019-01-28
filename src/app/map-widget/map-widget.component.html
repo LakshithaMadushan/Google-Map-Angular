@@ -1,7 +1,7 @@
 <div class="map-view-container">
   <div class="map-view">
     <input class="map-view__toggle-check" id="map-view__toggle-check" type="checkbox" role="button"/>
-    <label class="map-view__toggle-label" for="map-view__toggle-check"><span>▶</span></label>
+    <label class="map-view__toggle-label" for="map-view__toggle-check"></label>
     <section class="map-view__map">
       <app-map *ngIf="loadMap" [HotelMarkerDataList]="hotelMarkerDataList" [ZoomLevel]="11" [MapStyle]="2"
                [EnteredMapCardID]="enteredMapCardID" (EmitSelectedMarkerId)="scrollToCards($event)"></app-map>

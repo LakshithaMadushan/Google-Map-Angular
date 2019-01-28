@@ -139,14 +139,6 @@ export class MapComponent implements OnInit, OnChanges {
         }
       });
 
-      this.map.data.loadGeoJson('assets/geo/abu-dhabi-geojson.json');
-      this.map.data.setStyle({
-        fillColor: '#884891',
-        strokeWeight: 2,
-        fillOpacity: 0.03,
-        strokeColor: '#884891',
-        strokeOpacity: 0.7
-      });
       this.mapMarkers();
       this.infoWindow = new google.maps.InfoWindow();
 
