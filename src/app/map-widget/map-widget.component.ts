@@ -78,4 +78,8 @@ export class MapWidgetComponent implements OnInit {
       behavior: 'smooth'
     });
   }
+
+  resetSelectedMapCard() {
+    this.selectedMarkerID = undefined;
+  }
 }

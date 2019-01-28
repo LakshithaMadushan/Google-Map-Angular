@@ -3,8 +3,10 @@
     <input class="map-view__toggle-check" id="map-view__toggle-check" type="checkbox" role="button"/>
     <label class="map-view__toggle-label" for="map-view__toggle-check"></label>
     <section class="map-view__map">
-      <app-map *ngIf="loadMap" [HotelMarkerDataList]="hotelMarkerDataList" [ZoomLevel]="11" [MapStyle]="2"
-               [EnteredMapCardID]="enteredMapCardID" (EmitSelectedMarkerId)="scrollToCards($event)"></app-map>
+      <app-map *ngIf="loadMap" [HotelMarkerDataList]="hotelMarkerDataList" [MapCardDataList]="mapCardDataList" [ZoomLevel]="11" [MapStyle]="2"
+               (EmitInfoWindowClose)="resetSelectedMapCard()"
+               [EnteredMapCardID]="enteredMapCardID" (EmitMapClick)="resetSelectedMapCard()"
+               (EmitSelectedMarkerId)="scrollToCards($event)"></app-map>
     </section>
     <section class="map-view__results">
       <ng-container *ngFor="let mapCardData of mapCardDataList; let i = index;">

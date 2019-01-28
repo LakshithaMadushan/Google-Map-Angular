@@ -14,12 +14,15 @@ declare var google;
 export class MapComponent implements OnInit, OnChanges {
 
   @Input('HotelMarkerDataList') hotelMarkerDataList: Array<HotelMarkerData>;
+  @Input('MapCardDataList') mapCardDataList: Array<HotelMarkerData>;
   @Input('ZoomLevel') mapZoomLevel;
   @Input('ClickEnable') clickEnable = true;
   @Input('EnablePlaceSearch') placeSearch = false;
   @Input('MapStyle') setMapStyle;
   @Input('EnteredMapCardID') enteredMapCardID: number;
   @Output('EmitSelectedMarkerId') emitSelectedMarkerId: EventEmitter<any> = new EventEmitter();
+  @Output('EmitMapClick') emitMapClick: EventEmitter<any> = new EventEmitter();
+  @Output('EmitInfoWindowClose') emitInfoWindowClose: EventEmitter<any> = new EventEmitter();
 
   markersList: any = [];
   map: any;
@@ -189,10 +192,12 @@ export class MapComponent implements OnInit, OnChanges {
 
       google.maps.event.addListener(this.map, 'click', (() => {
         this.resetBouncingMarker(this.selectedMarker);
+        this.emitMapClick.emit();
       }));
 
       google.maps.event.addListener(this.infoWindow, 'closeclick', (() => {
         this.resetBouncingMarker(this.selectedMarker);
+        this.emitInfoWindowClose.emit();
       }));
 
       return;
@@ -244,31 +249,98 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   public clickOnMarker(clickedMarker) {
+    if (this.infoWindow) {
+      this.infoWindow = null;
+      this.infoWindow = new google.maps.InfoWindow();
+    }
     clickedMarker.setMap(null);
     if (this.markersList.length > 0) {
       this.markersList.forEach((marker) => {
         if (marker.uid === clickedMarker.get('unique_id')) {
           this.selectedMarker = this.marker(marker.point.lat, marker.point.lng, marker.uid, 'assets/icons/marker-hotel-highlight.png', Animation.BOUNCE);
+          const cardData = this.mapCardDataList.filter((mapCardData) => {
+            return (mapCardData['uid'] === marker.uid);
+          });
+
+          let cardImage;
+          if ((cardData[0]['hotel'].contentNode.mainImages.length)) {
+            if (cardData[0]['hotel'].contentNode.mainImages[0].thumbImageUrl) {
+              cardImage = cardData[0]['hotel'].contentNode.mainImages[0].thumbImageUrl;
+            } else if (cardData[0]['hotel'].contentNode.mainImages[0].imageUrl) {
+              cardImage = cardData[0]['hotel'].contentNode.mainImages[0].imageUrl;
+            }
+          } else {
+            cardImage = '';
+          }
+
           this.infoWindow.setContent(
-            '<div class=\'info-card\'>' +
-            '<div class=\'info-card-top\'>' +
-            '<div class=\'info-card-meta\'>' +
-            '<div class=\'info-card-heading\'>' +
-            'lakshitha' + marker.uid +
+            '<div class=\'map-infobox\'>' +
+            '<div id=\'thumb_image\' class=\'map-infobox__thumb\' style=\'background-image: url(' + cardImage + ')\'>' +
             '</div>' +
-            '<div class=\'info-card-subheading\'>' +
-            'lakshitha' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '<div class=\'info-card-bottom\'>' +
-            '<p>' + 'lakshitha' + '</p>' +
+            '<div class=\'map-infobox__content\'>' +
+            '<div class=\'map-infobox__content-hotel-name\'>' + cardData[0]['hotel'].contentNode.hotelName + '</div>' +
+            '<div class=\'map-infobox__content-hotel-stars\'>' + this.generateStartRatingForInfowindowContent(cardData[0]['hotel'].starRating, 5) + '</div>' +
+            '<div class=\'map-infobox__content-hotel-price\'>' + cardData[0]['hotel'].sellingCurrencySymbol + ' ' + this.getTotalPrice(cardData[0]['hotel'].totalPrice, cardData[0]['generic'].totalPrice) + '</div>' +
             '</div>' +
             '</div>'
           );
           this.infoWindow.open(this.map, this.selectedMarker);
+          if (document.getElementById('thumb_image')) {
+            console.log(document.getElementById('thumb_image'));
+            document.getElementById('thumb_image').style.backgroundImage = 'url(' + cardImage + ')';
+          }
         }
       });
     }
+  }
+
+  generateStartRatingForInfowindowContent(starValue, starCount): string {
+    let startRatingString = '';
+    if (starValue != null && isNaN(starValue)) {
+      if (starValue.length > 0) {
+        if (starValue[0] === '*') {
+          let num = 0;
+          for (let i = 0; i < starValue.length; i++) {
+            if (starValue[i] === '*') {
+              num++;
+            }
+            if (starValue[i] === '+') {
+              num = num + 0.5;
+            }
+          }
+          starValue = num;
+        } else {
+          starValue = parseFloat(starValue);
+        }
+      } else {
+        starValue = 0;
+      }
+    }
+
+    const percentage = this.getPercentage(starValue, starCount);
+
+    startRatingString = startRatingString + '<div class=\'surf-star-ratings\'>' + '<div class=\'surf-star-ratings__top\' style=\'width: ' + percentage + '%\'>';
+    for (let index_top = 0; index_top < starCount; index_top++) {
+      startRatingString = startRatingString + '<i>★</i>';
+    }
+
+    startRatingString = startRatingString + '</div>' + '<div class=\'surf-star-ratings__bottom\'>';
+    for (let index_bottom = 0; index_bottom < starCount; index_bottom++) {
+      startRatingString = startRatingString + '<i>★</i>';
+    }
+
+    startRatingString = startRatingString + '</div></div>';
+
+    return startRatingString;
+  }
+
+  getPercentage(starValue, starCount) {
+    return ((starValue / starCount) * 100).toString();
+  }
+
+  getTotalPrice(hotelPrice: number, genericPrice: number) {
+    const val = Number(hotelPrice + genericPrice).toFixed(2);
+    const parts = val.toString().split('.');
+    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (parts[1] ? '.' + parts[1] : '.00');
   }
 }
