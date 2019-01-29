@@ -1,9 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgModule, OnInit} from '@angular/core';
 import {Http} from '@angular/http';
 import {HotelMarkerData} from './HotelMarkerData';
 import {Point} from '../map/Point';
 import {Marker} from '../map/marker';
 import {MapCardData} from '../map-card/MapCardData';
+import {MapComponent} from '../map/map.component';
+import {DefaultImage} from '../directives/default-image.directive';
+import {MapCardStarRatingComponent} from '../map-card-star-rating/map-card-star-rating.component';
+import {MapCardComponent} from '../map-card/map-card.component';
+import {BrowserModule} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-map-widget',
@@ -82,4 +87,14 @@ export class MapWidgetComponent implements OnInit {
   resetSelectedMapCard() {
     this.selectedMarkerID = undefined;
   }
+}
+
+@NgModule({
+  exports: [MapWidgetComponent],
+  declarations: [MapWidgetComponent, MapComponent, MapCardComponent, MapCardStarRatingComponent, DefaultImage],
+  imports: [BrowserModule],
+  providers: []
+})
+
+export class MapWidgetComponentModule {
 }

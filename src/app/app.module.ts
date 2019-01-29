@@ -3,30 +3,22 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {MapComponent} from './map/map.component';
 import {FormsModule} from '@angular/forms';
-import {MapWidgetComponent} from './map-widget/map-widget.component';
-import {MapCardComponent} from './map-card/map-card.component';
+import {MapWidgetComponentModule} from './map-widget/map-widget.component';
 import {HttpModule} from '@angular/http';
 import {GetMapStylesService} from './map/get-map-styles.service';
-import {MapCardStarRatingComponent} from './map-card-star-rating/map-card-star-rating.component';
-import {DefaultImage} from './directives/default-image.directive';
 import {ConfigService} from './services/config.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    MapComponent,
-    MapWidgetComponent,
-    MapCardComponent,
-    MapCardStarRatingComponent,
-    DefaultImage
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    MapWidgetComponentModule
   ],
   providers: [GetMapStylesService, ConfigService],
   bootstrap: [AppComponent]
