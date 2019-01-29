@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Http} from '@angular/http';
 import {HotelMarkerData} from './HotelMarkerData';
 import {Point} from '../map/Point';
-import {Marker} from '../map/Marker';
+import {Marker} from '../map/marker';
 import {MapCardData} from '../map-card/MapCardData';
 
 @Component({

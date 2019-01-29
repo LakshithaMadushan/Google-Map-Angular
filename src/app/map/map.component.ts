@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {MapTypeId} from './MapTypeId.enum';
+import {MapTypeId} from './mapTypeId.enum';
 import {Animation} from './Animation.enum';
 import {GetMapStylesService} from './get-map-styles.service';
 import {HotelMarkerData} from '../map-widget/HotelMarkerData';
