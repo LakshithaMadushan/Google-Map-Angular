@@ -23,8 +23,10 @@ export class MapWidgetComponent implements OnInit {
   mapCardDataList: any = [];
   enteredMapCardID: number;
   selectedMarkerID: number;
+  screenWidth: any;
 
   constructor(private http: Http) {
+    this.screenWidth = (screen.width);
     this.getData();
   }
 

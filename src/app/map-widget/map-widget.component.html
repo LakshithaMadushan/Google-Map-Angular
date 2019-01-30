@@ -9,7 +9,7 @@
                [EnteredMapCardID]="enteredMapCardID" (EmitMapClick)="resetSelectedMapCard()"
                (EmitSelectedMarkerId)="scrollToCards($event);scrollToCardsMobile($event);"></app-map>
     </section>
-    <section class="map-view__results">
+    <section *ngIf="screenWidth >= 768" class="map-view__results">
       <ng-container *ngFor="let mapCardData of mapCardDataList; let i = index;">
         <app-map-card [id]="mapCardData.uid"
                       (mouseenter)="mouseEnterMapCard(mapCardData, i); (mapCardData.uid == selectedMarkerID) ? '':(selectedMarkerID = undefined)"
@@ -18,9 +18,7 @@
                       [ngClass]="(mapCardData.uid == selectedMarkerID) ? 'map-card--highlight':''"></app-map-card>
       </ng-container>
     </section>
-
-
-    <section class="map-view__results--mobile">
+    <section *ngIf="screenWidth < 768" class="map-view__results--mobile">
       <div class="map-view__results--mobile-container">
         <ul class="map-card-mobile-list">
           <ng-container *ngFor="let mapCardData of mapCardDataList; let i = index;">
@@ -41,7 +39,5 @@
         <div class="bottom-info-text-container">{{mapCardDataList.length}} hotel options available</div>
       </div>
     </section>
-
-
   </div>
 </div>
