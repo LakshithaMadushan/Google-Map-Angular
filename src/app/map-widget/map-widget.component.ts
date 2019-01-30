@@ -75,24 +75,23 @@ export class MapWidgetComponent implements OnInit {
     this.enteredMapCardID = ((data['uid']));
   }
 
-  mouseLeaveMapCard(data, i) {
+  mouseLeaveMapCard() {
     this.enteredMapCardID = undefined;
   }
 
   scrollToCards(uid) {
     this.selectedMarkerID = uid;
-    const element = document.getElementById(uid);
-    element.scrollIntoView({
-      behavior: 'smooth'
-    });
-  }
-
-  scrollToCardsMobile(uid) {
-    this.selectedMarkerID = uid;
-    const element = document.getElementById(uid + 'm');
-    element.scrollIntoView({
-      behavior: 'smooth'
-    });
+    if (this.screenWidth < 768) {
+      const element = document.getElementById(uid + 'm');
+      element.scrollIntoView({
+        behavior: 'smooth'
+      });
+    } else {
+      const element = document.getElementById(uid);
+      element.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
   }
 
   resetSelectedMapCard() {

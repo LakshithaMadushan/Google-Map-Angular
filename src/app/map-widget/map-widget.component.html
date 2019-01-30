@@ -3,18 +3,20 @@
     <input class="map-view__toggle-check" id="map-view__toggle-check" type="checkbox" role="button"/>
     <label class="map-view__toggle-label" for="map-view__toggle-check"></label>
     <section class="map-view__map">
-      <app-map *ngIf="loadMap" [HotelMarkerDataList]="hotelMarkerDataList" [MapCardDataList]="mapCardDataList"
+      <app-map *ngIf="loadMap" [HotelMarkerDataList]="hotelMarkerDataList"
+               [MapCardDataList]="mapCardDataList"
+               [IsMobile]="(screenWidth < 768)? true : false"
                [ZoomLevel]="11" [MapStyle]="2"
                (EmitInfoWindowClose)="resetSelectedMapCard()"
                [EnteredMapCardID]="enteredMapCardID" (EmitMapClick)="resetSelectedMapCard()"
-               (EmitSelectedMarkerId)="scrollToCards($event);scrollToCardsMobile($event);"></app-map>
+               (EmitSelectedMarkerId)="scrollToCards($event);"></app-map>
     </section>
     <section *ngIf="screenWidth >= 768" class="map-view__results">
       <ng-container *ngFor="let mapCardData of mapCardDataList; let i = index;">
         <app-map-card [id]="mapCardData.uid"
                       (mouseenter)="mouseEnterMapCard(mapCardData, i); (mapCardData.uid == selectedMarkerID) ? '':(selectedMarkerID = undefined)"
                       [Hotel]="mapCardData.hotel" [Generic]="mapCardData.generic"
-                      (mouseleave)="mouseLeaveMapCard(mapCardData, i)" class="map-card"
+                      (mouseleave)="mouseLeaveMapCard()" class="map-card"
                       [ngClass]="(mapCardData.uid == selectedMarkerID) ? 'map-card--highlight':''"></app-map-card>
       </ng-container>
     </section>
@@ -23,9 +25,9 @@
         <ul class="map-card-mobile-list">
           <ng-container *ngFor="let mapCardData of mapCardDataList; let i = index;">
             <app-map-card-mobile [id]="mapCardData.uid + 'm'"
-                                 (click)="mouseEnterMapCard(mapCardData, i); (mapCardData.uid == selectedMarkerID) ? '':(selectedMarkerID = undefined)"
+                                 (click)="mouseEnterMapCard(mapCardData, i); (mapCardData.uid == selectedMarkerID) ? '':(selectedMarkerID = undefined); scrollToCards(mapCardData.uid);"
                                  [Hotel]="mapCardData.hotel" [Generic]="mapCardData.generic"
-                                 (mouseleave)="mouseLeaveMapCard(mapCardData, i)"
+                                 (mouseleave)="mouseLeaveMapCard()"
                                  [ngClass]="(mapCardData.uid == selectedMarkerID) ? 'map-card-mobile map-card-mobile--highlight':'map-card-mobile'"></app-map-card-mobile>
           </ng-container>
         </ul>

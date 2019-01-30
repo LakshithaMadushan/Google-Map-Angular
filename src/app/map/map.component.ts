@@ -17,6 +17,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Input('MapCardDataList') mapCardDataList: Array<HotelMarkerData>;
   @Input('ZoomLevel') mapZoomLevel;
   @Input('ClickEnable') clickEnable = true;
+  @Input('IsMobile') isMobile = false;
   @Input('EnablePlaceSearch') placeSearch = false;
   @Input('MapStyle') setMapStyle;
   @Input('EnteredMapCardID') enteredMapCardID: number;
@@ -195,11 +196,6 @@ export class MapComponent implements OnInit, OnChanges {
         this.emitMapClick.emit();
       }));
 
-      google.maps.event.addListener(this.infoWindow, 'closeclick', (() => {
-        this.resetBouncingMarker(this.selectedMarker);
-        this.emitInfoWindowClose.emit();
-      }));
-
       return;
     });
   }
@@ -253,6 +249,12 @@ export class MapComponent implements OnInit, OnChanges {
       this.infoWindow = null;
       this.infoWindow = new google.maps.InfoWindow();
     }
+
+    google.maps.event.addListener(this.infoWindow, 'closeclick', (() => {
+      this.resetBouncingMarker(this.selectedMarker);
+      this.emitInfoWindowClose.emit();
+    }));
+
     clickedMarker.setMap(null);
     if (this.markersList.length > 0) {
       this.markersList.forEach((marker) => {
