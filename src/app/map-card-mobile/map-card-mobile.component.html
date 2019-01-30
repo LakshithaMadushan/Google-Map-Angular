@@ -1,0 +1,16 @@
+<div class="map-card-mobile__hotel-name">
+  {{hotel?.contentNode?.hotelName != null ? hotel?.contentNode?.hotelName : hotel?.name }}
+  <span
+    *ngIf="generic"> with {{generic?.contentNode?.name != null ? generic?.contentNode?.name : generic?.name }}
+    </span></div>
+<div class="map-card-mobile__hotel-stars">
+  <ng-container *ngIf="hotel.accomType == 'HOT'">
+    <app-map-card-star-rating [starValue]="hotel?.starRating" [starCount]="5"></app-map-card-star-rating>
+  </ng-container>
+  <ng-container *ngIf="hotel.accomType == 'APT'">
+    <div class="rating-label"><span>{{hotel?.starRating}}</span></div>
+  </ng-container>
+</div>
+<div class="map-card-mobile__hotel-price">
+  {{hotel?.sellingCurrencySymbol}} {{hotel?.totalPrice + generic?.totalPrice}}
+</div>

@@ -9,6 +9,7 @@ import {DefaultImage} from '../directives/default-image.directive';
 import {MapCardStarRatingComponent} from '../map-card-star-rating/map-card-star-rating.component';
 import {MapCardComponent} from '../map-card/map-card.component';
 import {BrowserModule} from '@angular/platform-browser';
+import {MapCardMobileComponent} from '../map-card-mobile/map-card-mobile.component';
 
 @Component({
   selector: 'app-map-widget',
@@ -84,6 +85,14 @@ export class MapWidgetComponent implements OnInit {
     });
   }
 
+  scrollToCardsMobile(uid) {
+    this.selectedMarkerID = uid;
+    const element = document.getElementById(uid + 'm');
+    element.scrollIntoView({
+      behavior: 'smooth'
+    });
+  }
+
   resetSelectedMapCard() {
     this.selectedMarkerID = undefined;
   }
@@ -91,7 +100,7 @@ export class MapWidgetComponent implements OnInit {
 
 @NgModule({
   exports: [MapWidgetComponent],
-  declarations: [MapWidgetComponent, MapComponent, MapCardComponent, MapCardStarRatingComponent, DefaultImage],
+  declarations: [MapWidgetComponent, MapComponent, MapCardComponent, MapCardStarRatingComponent, MapCardMobileComponent, DefaultImage],
   imports: [BrowserModule],
   providers: []
 })
