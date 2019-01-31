@@ -146,6 +146,7 @@ export class MapComponent implements OnInit, OnChanges {
 
       this.mapMarkers();
       this.infoWindow = new google.maps.InfoWindow();
+      this.setZoomLevel();
 
       if (this.placeSearch) {
         const input = document.getElementById('pac-input');
@@ -345,5 +346,20 @@ export class MapComponent implements OnInit, OnChanges {
     const val = Number(hotelPrice + genericPrice).toFixed(2);
     const parts = val.toString().split('.');
     return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (parts[1] ? '.' + parts[1] : '.00');
+  }
+
+  setZoomLevel() {
+    if (!this.mapZoomLevel && (this.hotelMarkerDataList.length > 0)) {
+      const latlng = [];
+      this.hotelMarkerDataList.forEach((hotelMarkerData) => {
+        latlng.push(new google.maps.LatLng(hotelMarkerData.marker.point.lat, hotelMarkerData.marker.point.lng));
+      });
+
+      const latlngbounds = new google.maps.LatLngBounds();
+      for (let i = 0; i < latlng.length; i++) {
+        latlngbounds.extend(latlng[i]);
+      }
+      this.map.fitBounds(latlngbounds);
+    }
   }
 }

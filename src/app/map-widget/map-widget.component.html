@@ -6,7 +6,7 @@
       <app-map *ngIf="loadMap" [HotelMarkerDataList]="hotelMarkerDataList"
                [MapCardDataList]="mapCardDataList"
                [IsMobile]="(screenWidth < 768)? true : false"
-               [ZoomLevel]="11" [MapStyle]="2"
+               [MapStyle]="2"
                (EmitInfoWindowClose)="resetSelectedMapCard()"
                [EnteredMapCardID]="enteredMapCardID" (EmitMapClick)="resetSelectedMapCard()"
                (EmitSelectedMarkerId)="scrollToCards($event);"></app-map>
