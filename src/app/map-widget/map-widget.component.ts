@@ -61,8 +61,21 @@ export class MapWidgetComponent implements OnInit {
         tempMapCardDataObj.generic = generic[0];
 
         tempHotelMarkerObj.marker = tempMarkerObj;
-        this.hotelMarkerDataList.push(tempHotelMarkerObj);
+
+        let duplicate = false;
+
+        this.hotelMarkerDataList.forEach((markerData) => {
+          if (markerData.marker.uid === tempHotelMarkerObj.marker.uid) {
+            duplicate = true;
+          }
+        });
+
+        if (!duplicate) {
+          this.hotelMarkerDataList.push(tempHotelMarkerObj);
+        }
+
         this.mapCardDataList.push(tempMapCardDataObj);
+
         this.loadMap = true;
       });
     }, (error) => {

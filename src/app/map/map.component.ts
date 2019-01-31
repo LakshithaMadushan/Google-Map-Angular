@@ -138,6 +138,7 @@ export class MapComponent implements OnInit, OnChanges {
         styles: this.mapStyles,
         streetViewControl: true,
         fullscreenControl: true,
+        info: true,
         fullscreenControlOptions: {
           position: google.maps.ControlPosition.BOTTOM_RIGHT
         }
