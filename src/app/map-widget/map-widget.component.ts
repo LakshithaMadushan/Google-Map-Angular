@@ -10,6 +10,7 @@ import {MapCardStarRatingComponent} from '../map-card-star-rating/map-card-star-
 import {MapCardComponent} from '../map-card/map-card.component';
 import {BrowserModule} from '@angular/platform-browser';
 import {MapCardMobileComponent} from '../map-card-mobile/map-card-mobile.component';
+import {MapMobileComponent} from '../map/mapMobile.component';
 
 @Component({
   selector: 'app-map-widget',
@@ -114,7 +115,7 @@ export class MapWidgetComponent implements OnInit {
 
 @NgModule({
   exports: [MapWidgetComponent],
-  declarations: [MapWidgetComponent, MapComponent, MapCardComponent, MapCardStarRatingComponent, MapCardMobileComponent, DefaultImage],
+  declarations: [MapWidgetComponent, MapComponent, MapMobileComponent, MapCardComponent, MapCardStarRatingComponent, MapCardMobileComponent, DefaultImage],
   imports: [BrowserModule],
   providers: []
 })

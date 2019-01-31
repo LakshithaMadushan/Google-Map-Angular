@@ -7,11 +7,11 @@ import {HotelMarkerData} from '../map-widget/HotelMarkerData';
 declare var google;
 
 @Component({
-  selector: 'app-map',
+  selector: 'app-map-mobile',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit, OnChanges {
+export class MapMobileComponent implements OnInit, OnChanges {
 
   @Input('HotelMarkerDataList') hotelMarkerDataList: Array<HotelMarkerData>;
   @Input('MapCardDataList') mapCardDataList: Array<HotelMarkerData>;
@@ -45,9 +45,7 @@ export class MapComponent implements OnInit, OnChanges {
   };
 
   constructor(private _elem: ElementRef, private getMapStylesService: GetMapStylesService) {
-    // this.markersList = [
-    //   {point: {lat: 25.774252, lng: -80.190262}, uid: 1, icon: 'assets/icons/marker-hotel.png', animation: Animation.DROP}
-    // ];
+    console.log('map mobile view');
   }
 
   ngOnInit() {
@@ -92,7 +90,7 @@ export class MapComponent implements OnInit, OnChanges {
     }
 
     if (changes['enteredMapCardID'] && !changes['enteredMapCardID'].firstChange) {
-      if (this.enteredMapCardID === undefined) {
+      if (this.enteredMapCardID === undefined && this.mapCardActivatedMarker) {
         this.mapCardActivatedMarker.setMap(null);
         const temp = this.marker(this.mapCardActivatedMarker.position.lat(), this.mapCardActivatedMarker.position.lng(), this.mapCardActivatedMarker.unique_id, 'assets/icons/marker-hotel.png', Animation.NONE);
         this.uidMarkerPairList.forEach((pair) => {
@@ -132,15 +130,23 @@ export class MapComponent implements OnInit, OnChanges {
       this.map = new google.maps.Map(el, {
         zoom: (this.mapZoomLevel) ? (this.mapZoomLevel) : 5,
         mapTypeId: MapTypeId.roadmap,
+        rotateControl: false,
         gestureHandling: 'cooperative',
         mapTypeControl: false,
         styles: this.mapStyles,
-        streetViewControl: true,
         fullscreenControl: true,
         info: true,
         fullscreenControlOptions: {
-          position: google.maps.ControlPosition.BOTTOM_RIGHT
-        }
+          position: google.maps.ControlPosition.TOP_RIGHT
+        },
+        streetViewControl: true,
+        streetViewControlOptions: {
+          position: google.maps.ControlPosition.LEFT_TOP
+        },
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.RIGHT_CENTER
+        },
       });
 
       this.mapMarkers();
@@ -211,9 +217,16 @@ export class MapComponent implements OnInit, OnChanges {
     });
 
     google.maps.event.addListener(marker, 'click', (() => {
-      if (this.selectedMarker && (marker.unique_id !== this.selectedMarker.unique_id)) {
-        this.resetBouncingMarker(this.selectedMarker);
+      if (!this.mapCardActivatedMarker) {
+        if (this.selectedMarker && (marker.unique_id !== this.selectedMarker.unique_id)) {
+          this.resetBouncingMarker(this.selectedMarker);
+        }
+      } else {
+        this.removeMarker(this.mapCardActivatedMarker);
+        this.emitMapClick.emit();
+        this.mapCardActivatedMarker = undefined;
       }
+
       this.clickOnMarker(marker);
       this.emitSelectedMarkerId.emit(marker.unique_id);
     }));
@@ -231,6 +244,12 @@ export class MapComponent implements OnInit, OnChanges {
         }
       });
       this.selectedMarker = undefined;
+    }
+  }
+
+  removeMarker(selectedMarker) {
+    if (selectedMarker) {
+      selectedMarker.setMap(null);
     }
   }
 
@@ -289,7 +308,6 @@ export class MapComponent implements OnInit, OnChanges {
           );
           this.infoWindow.open(this.map, this.selectedMarker);
           if (document.getElementById('thumb_image')) {
-            console.log(document.getElementById('thumb_image'));
             document.getElementById('thumb_image').style.backgroundImage = 'url(' + cardImage + ')';
           }
         }
