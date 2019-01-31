@@ -83,7 +83,7 @@ export class MapWidgetComponent implements OnInit {
         return parseFloat(a.marker.uid) - parseFloat(b.marker.uid);
       });
       this.mapCardDataList.sort((a, b) => {
-        return parseFloat(a.marker.uid) - parseFloat(b.marker.uid);
+        return parseFloat(a.uid) - parseFloat(b.uid);
       });
     }, (error) => {
       this.loadMap = true;
