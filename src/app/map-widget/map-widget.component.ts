@@ -82,6 +82,9 @@ export class MapWidgetComponent implements OnInit {
       this.hotelMarkerDataList.sort((a, b) => {
         return parseFloat(a.marker.uid) - parseFloat(b.marker.uid);
       });
+      this.mapCardDataList.sort((a, b) => {
+        return parseFloat(a.marker.uid) - parseFloat(b.marker.uid);
+      });
     }, (error) => {
       this.loadMap = true;
       console.log(error);
