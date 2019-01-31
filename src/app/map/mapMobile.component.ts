@@ -38,10 +38,10 @@ export class MapMobileComponent implements OnInit, OnChanges {
   mapCardActivatedMarker: any;
 
   imageBounds = {
-    north: 40.773941,
-    south: 40.712216,
-    east: -74.12544,
-    west: -74.22655
+    north: 24.5000,
+    south: 24.4530,
+    east: 54.6400,
+    west: 54.5700
   };
 
   constructor(private _elem: ElementRef, private getMapStylesService: GetMapStylesService) {
@@ -152,6 +152,9 @@ export class MapMobileComponent implements OnInit, OnChanges {
       this.mapMarkers();
       this.infoWindow = new google.maps.InfoWindow();
       this.setZoomLevel();
+
+      const yasIslandOverlay = new google.maps.GroundOverlay('assets/images/yas-island.png', this.imageBounds);
+      yasIslandOverlay.setMap(this.map);
 
       if (this.placeSearch) {
         const input = document.getElementById('pac-input');
