@@ -8,10 +8,12 @@ import {MapWidgetComponentModule} from './map-widget/map-widget.component';
 import {HttpModule} from '@angular/http';
 import {GetMapStylesService} from './map/get-map-styles.service';
 import {ConfigService} from './services/config.service';
+import { PriceRangeSliderComponent } from './price-range-slider/price-range-slider.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PriceRangeSliderComponent
   ],
   imports: [
     BrowserModule,
